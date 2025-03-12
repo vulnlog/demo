@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("dev.vulnlog.dslplugin") version "0.5.3"
 }
 
 group = "dev.vulnlog.vulnlogdemoproject"
@@ -16,4 +17,9 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+vulnlog {
+    definitionsFile.set(layout.projectDirectory.file("definitions.vl.kts"))
+    reportOutput.set(layout.buildDirectory.dir("vulnlog-reports"))
 }
