@@ -1,14 +1,32 @@
 # Vulnlog Demo Project
 
-This is a Vulnlog demo project to demonstrate the use of Vulnlog.
+This is a Demo Project to show how to get started using Vulnlog.
 
-Show the Vulnlog CLI version:
+In your Gradle project, simply add the Vulnlog Gradle plugin to your build file:
+
+```kotlin
+plugins {
+    id("java")
+    id("dev.vulnlog.dslplugin") version "$version"
+}
+```
+
+Run the `showCliVersion` task to show the Vulnlog CLI version:
 
 ```shell
 ./gradlew showCliVersion
 ```
 
-Generate a report for the demo project:
+To generate reports, configure the `vulnlog` in your `build.gradle.kts` file:
+
+```kotlin
+vulnlog {
+    definitionsFile.set(layout.projectDirectory.file("definitions.vl.kts"))
+    reportOutput.set(layout.buildDirectory.dir("vulnlog-reports"))
+}
+```
+
+Run the `generateReport` task to create the reports for the demo project:
 
 ```shell
 ./gradlew generateReport
@@ -23,4 +41,5 @@ report-v1.html
 report-v2.html
 ```
 
-For more information about the project, check out [Vulnlog](https://github.com/vulnlog/vulnlog).
+More information and documentation about the project can be found
+at [Vulnlog](https://github.com/vulnlog/vulnlog).
