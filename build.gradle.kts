@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    id("dev.vulnlog.dslplugin") version "0.5.3"
+    id("dev.vulnlog.dslplugin") version "0.6.0"
 }
 
 group = "dev.vulnlog.vulnlogdemoproject"
