@@ -1,12 +1,13 @@
 plugins {
     id("java")
-    id("dev.vulnlog.dslplugin") version "0.7.0"
+    id("dev.vulnlog.dslplugin") version "0.7.1"
 }
 
 group = "dev.vulnlog.vulnlogdemoproject"
 version = "1.0-SNAPSHOT"
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 

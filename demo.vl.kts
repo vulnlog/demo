@@ -1,5 +1,3 @@
-import dev.vulnlog.dsl.SuppressionSpecifierTemporarily.Companion.temporarily
-
 val releaseBranch0 by ReleaseBranchProvider
 val releaseBranch1 by ReleaseBranchProvider
 val releaseBranch2 by ReleaseBranchProvider
