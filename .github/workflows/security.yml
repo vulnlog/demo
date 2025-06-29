@@ -1,0 +1,68 @@
+name: Scan project for vulnerabilities
+
+on:
+  workflow_dispatch:
+
+jobs:
+  vulnlog:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out project
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          architecture: x64
+          cache: 'gradle'
+
+      - name: Generate suppression files
+        run: ./gradlew generateSuppression
+
+      - name: Archive suppression files
+        uses: actions/upload-artifact@v4
+        with:
+          name: suppression-files
+          path: |
+            build/vulnlog-suppressions/
+
+  owaspDependencyCheck:
+    needs: vulnlog
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out project
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          architecture: x64
+          cache: 'gradle'
+
+      - name: Download suppression files
+        uses: actions/download-artifact@v4
+        with:
+          name: suppression-files
+
+      - name: Prepare suppression files for Dependency Check
+        run: |
+          mkdir -p build/vulnlog-suppressions/
+          cp owasp-dependency-check-*.xml build/vulnlog-suppressions/
+
+      - name: Analyze project with OWASP Dependency Check
+        env:
+          OWASP_DEPENDENCY_CHECK_API_KEY: ${{ secrets.OWASP_DEPENDENCY_CHECK_API_KEY }}
+        run: ./gradlew dependencyCheckAnalyze
+
+      - name: Archive OWASP Dependency Check report
+        uses: actions/upload-artifact@v4
+        with:
+          name: owasp-dependency-check-report
+          path: |
+            build/reports/dependency-check-report.html

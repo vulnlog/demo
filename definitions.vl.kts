@@ -17,6 +17,18 @@ releases {
 }
 
 reporters {
-    reporter("Dependency Scanner 1")
-    reporter("Dependency Scanner 2")
+    reporter("OWASP Dependency Check") {
+        suppression {
+            templateFilename = "owasp-dependency-check.xml"
+            idMatcher = "CVE-.*"
+            template = """
+                |<suppress {{ until="vulnlogEnd" }}>
+                |    <notes><![CDATA[
+                |        {{ vulnlogReasoning }}
+                |    ]]></notes>
+                |    <vulnerabilityName>{{ vulnlogId }}</vulnerabilityName>
+                |</suppress>
+                |""".trimMargin()
+        }
+    }
 }
