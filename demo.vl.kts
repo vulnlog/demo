@@ -3,9 +3,28 @@ val releaseBranch1 by ReleaseBranchProvider
 val releaseBranch2 by ReleaseBranchProvider
 
 val owaspDependencyCheck by ReporterProvider
+val snykOpenSource by ReporterProvider
 
-vuln("CVE-2025-48734") {
-    report from owaspDependencyCheck at "2025-06-29" on releaseBranch2..releaseBranch2
+vuln("SNYK-JAVA-ORGJETBRAINSKOTLIN-2393744", "CVE-2020-29582") {
+    report from snykOpenSource at "2025-07-02" on releaseBranch2..releaseBranch2
+    analysis verdict low because """
+        Information exposure vulnerability in Kotlin Stdlib. The vulnerable code is not used.
+    """.trimIndent()
+    task update "org.jetbrains.kotlin:kotlin-stdlib" atLeastTo "2.1.0" on releaseBranch2
+    execution suppress untilNextPublication on releaseBranch2
+}
+
+vuln("SNYK-JAVA-COMMONSCOLLECTIONS-30078", "CVE-2015-7501") {
+    report from snykOpenSource at "2025-07-02" on releaseBranch2..releaseBranch2
+    analysis verdict notAffected because """
+        Deserialization of untrusted data vulnerability in Apache Commons. The vulnerable code is not used.
+    """.trimIndent()
+    task update "commons-beanutils:commons-beanutils" atLeastTo "1.11.0" on releaseBranch2
+    execution suppress untilNextPublication on releaseBranch2
+}
+
+vuln("CVE-2025-48734", "SNYK-JAVA-COMMONSBEANUTILS-10259368") {
+    report from setOf(owaspDependencyCheck, snykOpenSource) at "2025-06-29" on releaseBranch2..releaseBranch2
     analysis verdict notAffected because """
         Improper Access Control vulnerability in Apache Commons. The vulnerable code is not used.
     """.trimIndent()
@@ -13,8 +32,8 @@ vuln("CVE-2025-48734") {
     execution suppress untilNextPublication on releaseBranch2
 }
 
-vuln("CVE-2014-0114", "CVE-2019-10086") {
-    report from owaspDependencyCheck at "2025-06-29" on releaseBranch2..releaseBranch2
+vuln("CVE-2014-0114", "SNYK-JAVA-COMMONSBEANUTILS-30077", "CVE-2019-10086") {
+    report from setOf(owaspDependencyCheck, snykOpenSource) at "2025-06-29" on releaseBranch2..releaseBranch2
     analysis verdict notAffected because """
         Arbitrary code execution via the class parameter via classloader. The vulnerable code is not used.
     """.trimIndent()
@@ -22,8 +41,8 @@ vuln("CVE-2014-0114", "CVE-2019-10086") {
     execution suppress untilNextPublication on releaseBranch2
 }
 
-vuln("CVE-2015-6420") {
-    report from owaspDependencyCheck at "2025-06-29" on releaseBranch2..releaseBranch2
+vuln("CVE-2015-6420", "SNYK-JAVA-COMMONSCOLLECTIONS-472711") {
+    report from setOf(owaspDependencyCheck, snykOpenSource) at "2025-06-29" on releaseBranch2..releaseBranch2
     analysis verdict notAffected because """
         Deserialization of Untrusted Data vulnerability. The vulnerable code is not used.
     """.trimIndent()
@@ -32,8 +51,8 @@ vuln("CVE-2015-6420") {
 }
 
 
-vuln("CVE-2015-4852") {
-    report from owaspDependencyCheck at "2025-06-29" on releaseBranch2..releaseBranch2
+vuln("CVE-2015-4852", "SNYK-JAVA-COMMONSCOLLECTIONS-6056408") {
+    report from setOf(owaspDependencyCheck, snykOpenSource) at "2025-06-29" on releaseBranch2..releaseBranch2
     analysis verdict notAffected because """
         Arbitrary Remote Code Execution due to Unsafe Deserialization. The vulnerable code is not used.
     """.trimIndent()

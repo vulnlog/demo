@@ -31,4 +31,17 @@ reporters {
                 |""".trimMargin()
         }
     }
+    reporter("Snyk Open Source") {
+        suppression {
+            templateFilename = "snyk.yml"
+            idMatcher = "SNYK-.*"
+            template = """
+                |{{ vulnlogId }}:
+                |  - '*':
+                |      reason: >-
+                |        {{ vulnlogReasoning }}
+                |      created: {{ vulnlogStart }}
+                |      {{ expires: vulnlogEnd }}""".trimMargin()
+        }
+    }
 }
