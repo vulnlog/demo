@@ -2,6 +2,7 @@ plugins {
     id("java")
     id("dev.vulnlog.dslplugin") version "0.9.0"
     id("org.owasp.dependencycheck") version "12.1.3"
+    id("io.snyk.gradle.plugin.snykplugin") version "0.7.0"
 }
 
 group = "dev.vulnlog.vulnlogdemoproject"
@@ -43,4 +44,15 @@ dependencyCheck {
     nvd {
         apiKey = System.getenv("OWASP_DEPENDENCY_CHECK_API_KEY")
     }
+}
+
+snyk {
+    val reportSarif = layout.buildDirectory.file("reports/snyk.sarif").get().asFile.absolutePath
+    val reportJson = layout.buildDirectory.file("reports/snyk.json").get().asFile.absolutePath
+
+    // The Snyk suppression file .snyk is expected to be in the root working directory
+    setArguments("--sarif-file-output=$reportSarif --json-file-output=$reportJson")
+    setSeverity("low")
+    setAutoDownload(true)
+    setAutoUpdate(true)
 }
