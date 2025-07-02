@@ -47,7 +47,8 @@ dependencyCheck {
 }
 
 snyk {
-    val suppressionFile = layout.buildDirectory.file("vulnlog-suppressions/.snyk").get().asFile.absolutePath
+    val suppressionFile =
+        layout.buildDirectory.file("vulnlog-suppressions/.snyk").get().asFile.absolutePath
     val reportSarif = layout.buildDirectory.file("reports/snyk.sarif").get().asFile.absolutePath
     val reportJson = layout.buildDirectory.file("reports/snyk.json").get().asFile.absolutePath
 
@@ -57,12 +58,12 @@ snyk {
     setAutoUpdate(true)
 }
 
-//val copySnykSuppression by tasks.registering(Copy::class) {
-//    from(layout.buildDirectory.file("vulnlog-suppressions/snyk-release-branch-2.yml"))
-//    into(layout.buildDirectory.dir("vulnlog-suppressions"))
-//    rename("snyk-release-branch-2.yml", ".snyk")
-//}
+val copySnykSuppression by tasks.registering(Copy::class) {
+    from(layout.buildDirectory.file("vulnlog-suppressions/snyk-release-branch-2.yml").get().asFile)
+    into(layout.buildDirectory.dir("vulnlog-suppressions"))
+    rename("snyk-release-branch-2.yml", ".snyk")
+}
 
-//tasks.named("snyk-test") {
-////    dependsOn(copySnykSuppression)
-//}
+tasks.named("snyk-test") {
+    dependsOn(copySnykSuppression)
+}

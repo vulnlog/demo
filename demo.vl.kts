@@ -5,14 +5,14 @@ val releaseBranch2 by ReleaseBranchProvider
 val owaspDependencyCheck by ReporterProvider
 val snykOpenSource by ReporterProvider
 
-//vuln("SNYK-JAVA-ORGJETBRAINSKOTLIN-2393744", "CVE-2020-29582") {
-//    report from snykOpenSource at "2025-07-02" on releaseBranch2..releaseBranch2
-//    analysis verdict low because """
-//        Information exposure vulnerability in Kotlin Stdlib. The vulnerable code is not used.
-//    """.trimIndent()
-//    task update "org.jetbrains.kotlin:kotlin-stdlib" atLeastTo "2.1.0" on releaseBranch2
-//    execution suppress untilNextPublication on releaseBranch2
-//}
+vuln("SNYK-JAVA-ORGJETBRAINSKOTLIN-2393744", "CVE-2020-29582") {
+    report from snykOpenSource at "2025-07-02" on releaseBranch2..releaseBranch2
+    analysis verdict low because """
+        Information exposure vulnerability in Kotlin Stdlib. The vulnerable code is not used.
+    """.trimIndent()
+    task update "org.jetbrains.kotlin:kotlin-stdlib" atLeastTo "2.1.0" on releaseBranch2
+    execution suppress untilNextPublication on releaseBranch2
+}
 
 vuln("SNYK-JAVA-COMMONSCOLLECTIONS-30078", "CVE-2015-7501") {
     report from snykOpenSource at "2025-07-02" on releaseBranch2..releaseBranch2
