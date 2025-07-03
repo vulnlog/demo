@@ -14,7 +14,7 @@ repositories {
 
 dependencies {
     // dependency added for demonstration purpose only
-    implementation("commons-beanutils:commons-beanutils:1.9.0")
+    implementation("commons-beanutils:commons-beanutils:1.11.0")
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
